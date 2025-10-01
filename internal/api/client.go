@@ -28,7 +28,6 @@ func NewClient() *Client {
 }
 
 // GetLocationAreas retrieves location areas with pagination
-// GetLocationAreas retrieves location areas with pagination
 func (c *Client) GetLocationAreas(url string) (*LocationAreasResponse, error) {
 	if url == "" {
 		url = c.baseURL + "/location-area"
@@ -49,6 +48,10 @@ func (c *Client) GetLocationAreas(url string) (*LocationAreasResponse, error) {
 		return nil, fmt.Errorf("error making request: %v", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
 
 	var result LocationAreasResponse
 	err = json.NewDecoder(resp.Body).Decode(&result)
@@ -86,6 +89,10 @@ func (c *Client) GetPokemons(url string, area string) (*PokemonLocationArea, err
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
 	var result PokemonLocationArea
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
@@ -121,6 +128,10 @@ func (c *Client) GetPokemonStats(url, name string) (*Pokemon, error) {
 		return nil, fmt.Errorf("error making request: %v", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
 
 	var result Pokemon
 	err = json.NewDecoder(resp.Body).Decode(&result)

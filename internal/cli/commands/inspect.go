@@ -8,6 +8,10 @@ import (
 )
 
 func CommandInspect(cfg *config.AppConfig, client *api.Client, args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("missing pokemon name")
+	}
+
 	pokemonName := args[0]
 
 	if pokemon, exists := cfg.Pokedex[pokemonName]; exists {

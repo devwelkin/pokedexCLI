@@ -26,7 +26,7 @@ func NewCache(interval time.Duration) *Cache {
 		stop:     make(chan struct{}),
 	}
 
-	// Arka planda temizlik işlemini başlat
+	// Start the cleanup process in the background
 	go cache.reapLoop()
 
 	return cache
@@ -74,12 +74,8 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	if !exists {
 		return nil, false
 	}
-	// Süresi dolmuşsa sil ve false döndür
+	// Check if entry has expired
 	if time.Since(entry.createdAt) > c.interval {
-		c.mutex.RUnlock()
-		c.mutex.Lock()
-		delete(c.entries, key)
-		c.mutex.Unlock()
 		return nil, false
 	}
 	return entry.val, true

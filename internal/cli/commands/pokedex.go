@@ -14,7 +14,7 @@ func CommandPokedex(cfg *config.AppConfig, client *api.Client, args []string) er
 	}
 
 	fmt.Println("Your Pokedex:")
-	for name, _ := range cfg.Pokedex {
+	for name := range cfg.Pokedex {
 		fmt.Printf(" - %s \n", name)
 	}
 

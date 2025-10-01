@@ -9,6 +9,10 @@ import (
 )
 
 func CommandCatch(cfg *config.AppConfig, client *api.Client, args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("missing pokemon name")
+	}
+
 	url := ""
 	pokemonName := args[0]
 
